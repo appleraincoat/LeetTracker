@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}LeetTracker{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="{% static 'leettracker/styles.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid" id="main-container">
+        <div class="row" id="main-row">
+            <!-- Left Sidebar for Navigation -->
+            <div class="col-md-2" id="left-sidebar">
+                <h4 class="text-center mt-3" style="font-size: 30px;">LeetTracker</h4>
+                <ul class="nav flex-column">
+                    
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'myproblems' %}">My Problems</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'topics' %}">Topics</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'newentry' %}">New Entry</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Log Out</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Log In</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            
+            <!-- Main content -->
+            <div class="col-md-8" id="main-content">
+                {% block body %}
+                <!-- Main content goes here -->
+                {% endblock %}
+                {% block javascript %}
+                {% endblock %}
+            </div>
+            
+            <!-- Right Sidebar for Additional Information -->
+            <div class="col-md-2" id="right-sidebar">
+                <div class="extra-info">
+                    <h5 class="text-center mt-3" style="font-size: 30px;">Suggested Content</h5>
+                    <p>New to LeetCode?</p>
+                    <p>This is one of the best resources to start your journey!</p>
+                    <p><a class="nav-link" href="https://neetcode.io/roadmap">https://neetcode.io/roadmap</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

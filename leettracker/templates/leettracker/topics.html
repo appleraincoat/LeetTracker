@@ -1,0 +1,17 @@
+{% extends "leettracker/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div id="main-content">
+    <h2>Topics</h2>
+    {% if topics %}
+        <ul>
+            {% for topic in topics %}
+                <li>{{ topic }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No topics available.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "leettracker/layout.html" %}
+{% load static %}
+
+{% block javascript %}
+<script src="{% static 'leettracker/parsetabs.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+<div id="main-content">
+    <form method="post" action="{% url 'newentry' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="problemName">Problem Name</label>
+            <input type="text" class="form-control" id="problemName" name="problem_name" required>
+        </div>
+        <div class="form-group">
+            <label for="problemNumber">Problem Number</label>
+            <input type="number" class="form-control" id="problemNumber" name="problem_number" required>
+        </div>
+        <div class="form-group">
+            <label for="solution">Solution</label>
+            <textarea class="form-control" id="solution" name="solution" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="notes">Notes</label>
+            <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="topic">Topic</label>
+            <input type="text" class="form-control" id="topic" name="topic" required>
+        </div>
+        <div class="form-group">
+            <label for="timeComplexity">Time Complexity</label>
+            <input type="text" class="form-control" id="timeComplexity" name="time_complexity">
+        </div>
+        <div class="form-group">
+            <label for="spaceComplexity">Space Complexity</label>
+            <input type="text" class="form-control" id="spaceComplexity" name="space_complexity">
+        </div>
+        <div class="form-group">
+            <label for="difficulty">Difficulty</label>
+            <select class="form-control" id="difficulty" name="difficulty">
+                <option>Easy</option>
+                <option>Medium</option>
+                <option>Hard</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="problemLink">Problem Link</label>
+            <input type="url" class="form-control" id="problemLink" name="problem_link" placeholder="Enter Problem URL (optional)">
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="status" name="status">
+            <label class="form-check-label" for="status">Problem Solved</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}
+

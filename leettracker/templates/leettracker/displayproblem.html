@@ -1,0 +1,15 @@
+{% extends "leettracker/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div id="main-content">
+    <h1>{{ problem.problem_name }}</h1>
+    <p><strong>Problem Number:</strong> {{ problem.problem_number }}</p>
+    <p><strong>Solution:</strong> <pre>{{ problem.solution }}</pre></p>
+    <p><strong>Notes:</strong> {{ problem.notes }}</p>
+    <p><strong>Topic:</strong> {{ problem.topic }}</p>
+    <p><strong>Time Complexity:</strong> {{ problem.time_complexity }}</p>
+    <p><strong>Space Complexity:</strong> {{ problem.space_complexity }}</p>
+    <p><strong>Difficulty:</strong> {{ problem.difficulty }}</p>
+</div>
+{% endblock %}

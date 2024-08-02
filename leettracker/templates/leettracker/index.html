@@ -1,0 +1,9 @@
+{% extends "leettracker/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div id="main-content">
+        <h1>Welcome to LeetTracker!</h1>
+        <p>If you do not have an account yet, you may <a href="{% url 'register' %}">Register</a> for one, or <a href="{% url 'login' %}">Log In</a> if you do!</p>
+    </div>
+{% endblock %}
