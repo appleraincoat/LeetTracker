@@ -9,9 +9,9 @@ class User(AbstractUser):
 
 class LeetCodeProblem(models.Model):
     DIFFICULTY_CHOICES = [
-        ('E', 'Easy'),
-        ('M', 'Medium'),
-        ('H', 'Hard'),
+        ('Easy', 'Easy'),
+        ('Medium', 'Medium'),
+        ('Hard', 'Hard'),
     ]
 
     problem_name = models.CharField(max_length=255)
@@ -21,8 +21,8 @@ class LeetCodeProblem(models.Model):
     topic = models.CharField(max_length=100)
     time_complexity = models.CharField(max_length=100, blank=True, null=True)
     space_complexity = models.CharField(max_length=100, blank=True, null=True)
-    difficulty = models.CharField(max_length=1, choices=DIFFICULTY_CHOICES)
-    problem_link = models.URLField(max_length=200, default='https://default.url')
+    difficulty = models.CharField(max_length=6, choices=DIFFICULTY_CHOICES)  
+    problem_link = models.URLField(max_length=200)
     status = models.BooleanField()
 
     def __str__(self):

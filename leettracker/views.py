@@ -116,7 +116,7 @@ class LeetCodeProblemForm(forms.Form):
         })
     )
     difficulty = forms.ChoiceField(
-        choices=[('E', 'Easy'), ('M', 'Medium'), ('H', 'Hard')],
+        choices=[('Easy', 'Easy'), ('Medium', 'Medium'), ('Hard', 'Hard')],
         widget=forms.Select(attrs={
             'class': 'form-control'
         })
@@ -140,7 +140,7 @@ class LeetCodeProblemForm(forms.Form):
 def newentry(request):
     if request.method == "POST":
         form = LeetCodeProblemForm(request.POST)
-        if form.is_valid():
+        if form.is_valid():            
             new_problem = LeetCodeProblem(
                 problem_name=form.cleaned_data['problem_name'],
                 problem_number=form.cleaned_data['problem_number'],
@@ -156,6 +156,7 @@ def newentry(request):
             new_problem.save()
             return redirect('myproblems')  # Redirect to the listing page after saving
         else:
+            print("Form is invalid. Errors:", form.errors)
             return render(request, 'leettracker/newentry.html', {'form': form})
     else:
         form = LeetCodeProblemForm()

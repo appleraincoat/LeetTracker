@@ -2,14 +2,51 @@
 {% load static %}
 
 {% block body %}
-<div id="main-content">
-    <h1>{{ problem.problem_name }}</h1>
-    <p><strong>Problem Number:</strong> {{ problem.problem_number }}</p>
-    <p><strong>Solution:</strong> <pre>{{ problem.solution }}</pre></p>
-    <p><strong>Notes:</strong> {{ problem.notes }}</p>
-    <p><strong>Topic:</strong> {{ problem.topic }}</p>
-    <p><strong>Time Complexity:</strong> {{ problem.time_complexity }}</p>
-    <p><strong>Space Complexity:</strong> {{ problem.space_complexity }}</p>
-    <p><strong>Difficulty:</strong> {{ problem.difficulty }}</p>
+<div id="main-content" style="font-family: Arial, sans-serif; max-width: 800px; margin: auto; background-color: #333; padding: 20px; border-radius: 10px; color: white; position: relative;">
+    <!-- Solved/Unsolved Status -->
+    <div style="position: absolute; top: 20px; right: 20px;">
+        {% if problem.status %}
+        <span style="color: green; font-weight: bold;">
+            Solved <span style="color: green;">✔</span>
+        </span>
+        {% else %}
+        <span style="color: red; font-weight: bold;">
+            Unsolved <span style="color: red;">✘</span>
+        </span>
+        {% endif %}
+    </div>
+
+    <h1>{{ problem.problem_number }}. {{ problem.problem_name }}</h1>
+    <div style="display: flex; align-items: center; justify-content: start; margin-bottom: 20px;">
+        {% if problem.get_difficulty_display == "Easy" %}
+        <span style="display: inline-block; padding: 5px 20px; border-radius: 20px; background-color: #444; color: #4CAF50; text-align: center; font-weight: bold; margin-right: 20px; pointer-events: none; user-select: none;">
+            {{ problem.get_difficulty_display }}
+        </span>
+        {% elif problem.get_difficulty_display == "Medium" %}
+        <span style="display: inline-block; padding: 5px 20px; border-radius: 20px; background-color: #444; color: #FFC107; text-align: center; font-weight: bold; margin-right: 20px; pointer-events: none; user-select: none;">
+            {{ problem.get_difficulty_display }}
+        </span>
+        {% elif problem.get_difficulty_display == "Hard" %}
+        <span style="display: inline-block; padding: 5px 20px; border-radius: 20px; background-color: #444; color: #F44336; text-align: center; font-weight: bold; margin-right: 20px; pointer-events: none; user-select: none;">
+            {{ problem.get_difficulty_display }}
+        </span>
+        {% endif %}
+        <span style="margin-left: 20px;"><strong>Topic:</strong> {{ problem.topic }}</span>
+    </div>
+    <p><a href="{{ problem.problem_link }}" target="_blank" style="color: #007bff;"><strong>Link to Problem</strong></a></p>
+    
+    <h2>Solution</h2>
+    <pre style="background-color: #444; color: #eee; padding: 15px; overflow: auto;">{{ problem.solution }}</pre>
+    
+    {% if problem.notes %}
+    <h2>Notes</h2>
+    <pre style="background-color: #444; color: #eee; padding: 15px; overflow: auto;">{{ problem.notes }}</pre>
+    {% endif %}
+    
+    <h2>Complexity</h2>
+    <div style="background-color: #444; color: #eee; padding: 15px;">
+        <p><strong>Time Complexity:</strong> {{ problem.time_complexity }}</p>
+        <p><strong>Space Complexity:</strong> {{ problem.space_complexity }}</p>
+    </div>
 </div>
 {% endblock %}
