@@ -13,4 +13,5 @@ urlpatterns = [
     path('selectbytopic/<int:topic_id>/', views.problemsbytopic, name='problemsbytopic'),
     path('problems/<int:problem_id>/delete/', views.deleteproblem, name='deleteproblem'),
     path('problems/<int:problem_id>/edit/', views.editproblem, name='editproblem'),
+    path('random_problem', views.random_problem, name='random_problem'),
 ]

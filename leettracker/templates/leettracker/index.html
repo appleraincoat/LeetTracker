@@ -1,9 +1,38 @@
 {% extends "leettracker/layout.html" %}
 {% load static %}
 
+{% block javascript %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('random-problem-btn').addEventListener('click', function() {
+        fetch("{% url 'random_problem' %}")
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('random-problem-display').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('random-problem-display').innerHTML = `<p>Error fetching problem.</p>`;
+            });
+    });
+
+    const dropdownBox = document.getElementById('topics-dropdown-box');
+    const dropdownContent = document.getElementById('topics-dropdown-content');
+});
+</script>
+{% endblock %}
+
 {% block body %}
-    <div id="main-content">
+<div id="main-content">
+    {% if user.is_authenticated %}
+        <h1>Welcome to LeetTracker, {{ user.username }}!</h1>
+        <button id="random-problem-btn" class="btn btn-primary">Revise a Random Problem!</button>
+        <div id="random-problem-display" style="margin-top: 20px;"></div>
+    {% else %}
         <h1>Welcome to LeetTracker!</h1>
-        <p>If you do not have an account yet, you may <a href="{% url 'register' %}">Register</a> for one, or <a href="{% url 'login' %}">Log In</a> if you do!</p>
-    </div>
+        <h3>If you are new here, simple register <a href="{% url 'register' %}">here</a> to get started!</h3>
+        <h3>Otherwise, simply login <a href="{% url 'login' %}">here</a>!</h3>
+        <h3>Happy LeetTracking!</h3>
+    {% endif %}
+</div>
 {% endblock %}

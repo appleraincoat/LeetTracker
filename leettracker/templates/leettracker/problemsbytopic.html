@@ -6,30 +6,66 @@
 {% endblock %}
 
 {% block body %}
+<style>
+    .btn-secondary {
+        background-color: #f3fe53;
+        border-color: #f3fe53;
+        color: #333;
+        border-radius: 20px;
+        padding: 5px 10px;
+        margin: 5px 5px;
+    }
+
+    .form-control {
+        background-color: #444;
+        color: white;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .form-control:hover, .form-control:focus, .btn-secondary:hover, .btn-secondary:focus {
+        background-color: #333333;
+        border-color: #333333;
+        color: white;
+    }
+
+    .table th {
+        font-size: larger;
+    }
+
+    .filter-sort-section {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center; /* Align items vertically */
+    }
+</style>
+
 <div id="main-content">
     <h2>Problems for Topic: {{ topic.name }}</h2>
 
     <!-- Filter and Sort Section -->
-    <div class="filter-sort-section">
-        <button id="filter-button">Filter</button>
-        <select id="filter-difficulty">
+    <div class="filter-sort-section" style="margin-bottom: 20px;">
+        <select id="filter-difficulty" class="form-control" style="display: inline-block; width: auto;">
             <option value="">All Difficulties</option>
             <option value="Easy">Easy</option>
             <option value="Medium">Medium</option>
             <option value="Hard">Hard</option>
         </select>
-        <select id="filter-solved">
+        <select id="filter-solved" class="form-control" style="display: inline-block; width: auto;">
             <option value="">All Statuses</option>
             <option value="True">Solved</option>
             <option value="False">Unsolved</option>
         </select>
-        
-        <button id="sort-button">Sort</button>
-        <select id="sort-option">
+        <button id="filter-button" class="btn btn-secondary" style="margin-right: 100px;">Filter</button>
+
+        <select id="sort-option" class="form-control" style="display: inline-block; width: auto;">
             <option value="number">Problem Number</option>
             <option value="name">Problem Name</option>
         </select>
-        
+        <button id="sort-button" class="btn btn-secondary">Sort</button>
     </div>
 
     {% if problems %}

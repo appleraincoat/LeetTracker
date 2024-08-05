@@ -1,11 +1,13 @@
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>{% block title %}LeetTracker{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="{% static 'leettracker/styles.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'leettracker/styles.css' %}">
 </head>
 <body>
     <div class="container-fluid" id="main-container">
@@ -13,17 +15,33 @@
             <!-- Left Sidebar for Navigation -->
             <div class="col-md-2" id="left-sidebar">
                 <h4 class="text-center mt-3" style="font-size: 30px;">LeetTracker</h4>
+                {% if user.is_authenticated %}
+                    <p class="text-center mt-3" style="font-size: 20px;">{{ user.username }}</h4>
+                {% endif %}
                 <ul class="nav flex-column">
-                    
                     {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'myproblems' %}">My Problems</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'selectbytopic' %}">Select By Topic</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'newentry' %}">New Entry</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Log Out</a></li>
+                        <li class="nav-item" style="margin-bottom: 15px; border-bottom: 1px solid white;">
+                            <a class="nav-link" href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li class="nav-item" style="margin-bottom: 15px; border-bottom: 1px solid white;">
+                            <a class="nav-link" href="{% url 'myproblems' %}">My Problems</a>
+                        </li>
+                        <li class="nav-item" style="margin-bottom: 15px; border-bottom: 1px solid white;">
+                            <a class="nav-link" href="{% url 'selectbytopic' %}">Select By Topic</a>
+                        </li>
+                        <li class="nav-item" style="margin-bottom: 15px; border-bottom: 1px solid white;">
+                            <a class="nav-link" href="{% url 'newentry' %}">New Entry</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                        </li>
                     {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Log In</a></li>
+                        <li class="nav-item" style="margin-bottom: 15px; border-bottom: 1px solid white;">
+                            <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                        </li>
                     {% endif %}
                 </ul>
             </div>
@@ -31,7 +49,6 @@
             <!-- Main content -->
             <div class="col-md-8" id="main-content">
                 {% block body %}
-                <!-- Main content goes here -->
                 {% endblock %}
                 {% block javascript %}
                 {% endblock %}
@@ -40,10 +57,22 @@
             <!-- Right Sidebar for Additional Information -->
             <div class="col-md-2" id="right-sidebar">
                 <div class="extra-info">
-                    <h5 class="text-center mt-3" style="font-size: 30px;">Suggested Content</h5>
-                    <p>New to LeetCode?</p>
-                    <p>This is one of the best resources to start your journey!</p>
-                    <p><a class="nav-link" href="https://neetcode.io/roadmap">https://neetcode.io/roadmap</a></p>
+                    <h4 class="text-center mt-3" style="border-bottom: 1px solid white; padding-bottom: 20px; font-size: 30px;">Suggested Content</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item" style="margin-bottom: 15px; border-bottom: 1px solid white;">
+                            <p style="padding: 15px;">New to Leetcode?</p>
+                            <p style="padding: 15px;">Get started with a roadmap designed to help you prepare for technical interviews!</p>
+                            <img src="https://miro.medium.com/v2/resize:fit:1400/1*3OzdRa01O0k2tusICxE2mA.jpeg" alt="Roadmap Image" style="width: 100%; padding: 15px;">
+                            <p><a class="nav-link" href="https://neetcode.io/roadmap">https://neetcode.io/roadmap</a></p>
+                        </li>
+                        <li class="nav-item" style="margin-bottom: 15px; border-bottom: 1px solid white;">
+                            <p style="padding: 15px;">Casual Leetcoder and looking for another challenge?</p>
+                            <p style="padding: 15px;">Try out Harvard's CS50's Web Programming with Python and JavaScript!</p>
+                            <a href="https://www.youtube.com/watch?v=Nn7EX3zkGUo&list=PLhQjrBD2T380xvFSUmToMMzERZ3qB5Ueu" target="_blank">
+                                <img src=https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYemcurLUKMOlGr0LUeNxUpeN06E2Sz5Yvgw&s alt="Video Thumbnail" style="width: 100%; padding: 15px;">
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

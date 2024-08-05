@@ -8,6 +8,7 @@ from django import forms
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+import random
 
 from .models import User, LeetCodeProblem, Topic
 
@@ -242,3 +243,11 @@ def problemsbytopic(request, topic_id):
 def selectbytopic(request):
     topics = Topic.objects.all().order_by('name')
     return render(request, 'leettracker/selectbytopic.html', {'topics': topics})
+
+def random_problem(request):
+    problems = LeetCodeProblem.objects.all()
+    if problems:
+        problem = random.choice(problems)
+        return render(request, 'leettracker/problem_display_partial.html', {'problem': problem})
+    else:
+        return render(request, 'leettracker/problem_display_partial.html', {'error': 'No problems available.'})

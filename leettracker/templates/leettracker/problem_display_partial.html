@@ -1,69 +1,3 @@
-{% extends "leettracker/layout.html" %}
-{% load static %}
-
-{% block javascript %}
-<script src="{% static 'leettracker/problemlistfunctions.js' %}"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const dropdownBox = document.getElementById('topics-dropdown-box');
-    const dropdownContent = document.getElementById('topics-dropdown-content');
-
-    dropdownBox.addEventListener('click', function() {
-        dropdownContent.classList.toggle('show');
-    });
-
-    window.addEventListener('click', function(event) {
-        if (!event.target.closest('#topics-dropdown-box')) {
-            if (dropdownContent.classList.contains('show')) {
-                dropdownContent.classList.remove('show');
-            }
-        }
-    });
-});
-</script>
-{% endblock %}
-
-{% block body %}
-<style>
-    .dropdown {
-        position: relative;
-        display: block;
-        background-color: #333;
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .dropdown-content {
-        display: none;
-        position: relative;
-        background-color: #333;
-        padding: 10px;
-        margin-top: 10px;
-        border-radius: 5px;
-    }
-
-    .dropdown-content .tag {
-        background-color: #666;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 20px;
-        margin: 5px;
-        display: inline-block;
-    }
-
-    .dropdown-content .tag:hover {
-        background-color: #888;
-        color: white;
-    }
-
-    .show {
-        display: flex;
-        flex-wrap: wrap; /* Allow wrapping of the topics */
-    }
-</style>
-
 <div id="main-content" style="font-family: Arial, sans-serif; max-width: 800px; margin: auto; background-color: #333; padding: 20px; border-radius: 10px; color: white; position: relative;">
     <!-- Solved/Unsolved Status -->
     <div style="position: absolute; top: 20px; right: 20px;">
@@ -99,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <span>Topics &#9660;</span>
         <div id="topics-dropdown-content" class="dropdown-content">
             {% for topic in problem.topics.all %}
-            <a style="color: white" href="{% url 'problemsbytopic' topic.id %}" class="tag">{{ topic.name }}</a>
+            <a href="{% url 'problemsbytopic' topic.id %}" class="btn btn-secondary" style="margin: 5px; color: white;">{{ topic.name }}</a>
             {% endfor %}
         </div>
     </div>
@@ -119,12 +53,4 @@ document.addEventListener('DOMContentLoaded', function() {
         <p><strong>Time Complexity:</strong> {{ problem.time_complexity }}</p>
         <p><strong>Space Complexity:</strong> {{ problem.space_complexity }}</p>
     </div>
-    <div style="margin-top: 20px;">
-        <a href="{% url 'editproblem' problem.id %}" class="btn btn-warning">Edit</a>
-        <form method="post" action="{% url 'deleteproblem' problem.id %}" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this problem?');">Delete</button>
-        </form>
-    </div>
 </div>
-{% endblock %}
