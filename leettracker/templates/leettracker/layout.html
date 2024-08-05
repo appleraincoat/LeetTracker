@@ -18,7 +18,7 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'myproblems' %}">My Problems</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'topics' %}">Topics</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'selectbytopic' %}">Select By Topic</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'newentry' %}">New Entry</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Log Out</a></li>
                     {% else %}

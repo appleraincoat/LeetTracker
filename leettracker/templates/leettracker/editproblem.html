@@ -1,0 +1,17 @@
+{% extends "leettracker/formbase.html" %}
+
+{% block form_title %}Edit LeetCode Problem{% endblock %}
+{% block form_action %}{% url 'editproblem' problem.id %}{% endblock %}
+{% block problem_name_value %}{{ form.problem_name.value }}{% endblock %}
+{% block problem_number_value %}{{ form.problem_number.value }}{% endblock %}
+{% block solution_value %}{{ form.solution.value }}{% endblock %}
+{% block notes_value %}{{ form.notes.value }}{% endblock %}
+{% block topic_value %}{{ form.topics.value }}{% endblock %}
+{% block time_complexity_value %}{{ form.time_complexity.value }}{% endblock %}
+{% block space_complexity_value %}{{ form.space_complexity.value }}{% endblock %}
+{% block problem_link_value %}{{ form.problem_link.value }}{% endblock %}
+{% block submit_text %}Update{% endblock %}
+{% block difficulty_easy %}{% if form.difficulty.value == "Easy" %}selected{% endif %}{% endblock %}
+{% block difficulty_medium %}{% if form.difficulty.value == "Medium" %}selected{% endif %}{% endblock %}
+{% block difficulty_hard %}{% if form.difficulty.value == "Hard" %}selected{% endif %}{% endblock %}
+{% block status_checked %}{% if form.status.value %}checked{% endif %}{% endblock %}

@@ -48,5 +48,14 @@
         <p><strong>Time Complexity:</strong> {{ problem.time_complexity }}</p>
         <p><strong>Space Complexity:</strong> {{ problem.space_complexity }}</p>
     </div>
+
+    <!-- Edit and Delete Buttons -->
+    <div style="margin-top: 20px;">
+        <a href="{% url 'editproblem' problem.id %}" class="btn btn-warning">Edit</a>
+        <form method="post" action="{% url 'deleteproblem' problem.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this problem?');">Delete</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

@@ -1,28 +1,63 @@
 {% extends "leettracker/layout.html" %}
 {% load static %}
 
+{% block javascript %}
+<script src="{% static 'leettracker/problemlistfunctions.js' %}"></script>
+{% endblock %}
+
 {% block body %}
 <div id="main-content">
     <h1>Saved LeetCode Problems</h1>
-    <table class="table">
+
+    <!-- Filter and Sort Section -->
+    
+    <div class="filter-sort-section">
+        <button id="filter-button">Filter</button>
+        <select id="filter-difficulty">
+            <option value="">All Difficulties</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+        </select>
+        <select id="filter-solved">
+            <option value="">All Statuses</option>
+            <option value="True">Solved</option>
+            <option value="False">Unsolved</option>
+        </select>
+        
+        <button id="sort-button">Sort</button>
+        <select id="sort-option">
+            <option value="number">Problem Number</option>
+            <option value="name">Problem Name</option>
+        </select>
+    </div>
+
+    <table class="table" id="problems-table">
         <thead>
             <tr>
                 <th>Problem Number</th>
                 <th>Problem Name</th>
-                <th>Topic</th>
                 <th>Difficulty</th>
+                <th>Solved</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for problem in problems %}
-            <tr>
+            <tr id="problem-{{ problem.id }}">
                 <td>{{ problem.problem_number }}</td>
                 <td><a href="{% url 'displayproblem' problem.id %}">{{ problem.problem_name }}</a></td>
-                <td>{{ problem.topic }}</td>
                 <td>{{ problem.difficulty }}</td>
                 <td>
-                    <!-- Add link to a problem detail page or edit page if needed -->
+                    {% if problem.status %}
+                    <span style="color: green;">&#10004;</span> <!-- Green check mark -->
+                    {% else %}
+                    <span style="color: red;">&#10008;</span> <!-- Red cross mark -->
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'editproblem' problem.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <button class="btn btn-danger btn-sm" onclick="deleteProblem({{ problem.id }})">Delete</button>
                 </td>
             </tr>
             {% empty %}

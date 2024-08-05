@@ -1,11 +1,15 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
+from django.db.models import Count
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django import forms
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
-from .models import User, LeetCodeProblem
+from .models import User, LeetCodeProblem, Topic
 
 # Create your views here.
 
@@ -92,10 +96,9 @@ class LeetCodeProblemForm(forms.Form):
             'class': 'form-control'
         })
     )
-    topic = forms.CharField(
-        max_length=100,
+    topics = forms.CharField(
         widget=forms.TextInput(attrs={
-            'placeholder': 'Enter Topic',
+            'placeholder': 'Enter Topics (comma separated)',
             'class': 'form-control'
         })
     )
@@ -140,13 +143,12 @@ class LeetCodeProblemForm(forms.Form):
 def newentry(request):
     if request.method == "POST":
         form = LeetCodeProblemForm(request.POST)
-        if form.is_valid():            
+        if form.is_valid():
             new_problem = LeetCodeProblem(
                 problem_name=form.cleaned_data['problem_name'],
                 problem_number=form.cleaned_data['problem_number'],
                 solution=form.cleaned_data.get('solution', ''),
                 notes=form.cleaned_data.get('notes', ''),
-                topic=form.cleaned_data['topic'],
                 time_complexity=form.cleaned_data.get('time_complexity', ''),
                 space_complexity=form.cleaned_data.get('space_complexity', ''),
                 difficulty=form.cleaned_data['difficulty'],
@@ -154,13 +156,14 @@ def newentry(request):
                 status=form.cleaned_data['status']
             )
             new_problem.save()
-            return redirect('myproblems')  # Redirect to the listing page after saving
-        else:
-            print("Form is invalid. Errors:", form.errors)
-            return render(request, 'leettracker/newentry.html', {'form': form})
+            topic_names = form.cleaned_data['topics'].split(',')
+            for topic_name in topic_names:
+                topic, created = Topic.objects.get_or_create(name=topic_name.strip())
+                new_problem.topics.add(topic)
+            return redirect('myproblems')
     else:
         form = LeetCodeProblemForm()
-        return render(request, 'leettracker/newentry.html', {'form': form})
+    return render(request, 'leettracker/newentry.html', {'form': form})
 
 def myproblems(request):
     # Fetch all problem instances from the database
@@ -171,7 +174,71 @@ def displayproblem(request, problem_id):
     problem = get_object_or_404(LeetCodeProblem, pk=problem_id)
     return render(request, 'leettracker/displayproblem.html', {'problem': problem})
 
-def topics(request):
+def selectbytopic(request):
     # Fetch distinct topics and order them alphabetically
-    topics = LeetCodeProblem.objects.values_list('topic', flat=True).distinct().order_by('topic')
-    return render(request, 'leettracker/topics.html', {'topics': topics})
+    topics = LeetCodeProblem.objects.values_list('topics', flat=True).distinct().order_by('topics')
+    return render(request, 'leettracker/selectbytopic.html', {'topics': topics})
+
+def cleanup_topics():
+    Topic.objects.annotate(problem_count=Count('leetcodeproblem')).filter(problem_count=0).delete()
+    
+@csrf_exempt
+@require_POST
+def deleteproblem(request, problem_id):
+    problem = get_object_or_404(LeetCodeProblem, id=problem_id)
+    problem.delete()
+    cleanup_topics()  # Clean up orphaned topics
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'success': True})
+    else:
+        return redirect('myproblems')
+
+def editproblem(request, problem_id):
+    problem = get_object_or_404(LeetCodeProblem, id=problem_id)
+    if request.method == "POST":
+        form = LeetCodeProblemForm(request.POST)
+        if form.is_valid():
+            problem.problem_name = form.cleaned_data['problem_name']
+            problem.problem_number = form.cleaned_data['problem_number']
+            problem.solution = form.cleaned_data.get('solution', '')
+            problem.notes = form.cleaned_data.get('notes', '')
+            problem.time_complexity = form.cleaned_data.get('time_complexity', '')
+            problem.space_complexity = form.cleaned_data.get('space_complexity', '')
+            problem.difficulty = form.cleaned_data['difficulty']
+            problem.problem_link = form.cleaned_data['problem_link']
+            problem.status = form.cleaned_data['status']
+            problem.save()
+
+            problem.topics.clear()
+            topic_names = form.cleaned_data['topics'].split(',')
+            for topic_name in topic_names:
+                topic, created = Topic.objects.get_or_create(name=topic_name.strip())
+                problem.topics.add(topic)
+
+            cleanup_topics()  # Clean up orphaned topics
+            return redirect('displayproblem', problem_id=problem.id)
+    else:
+        initial_data = {
+            'problem_name': problem.problem_name,
+            'problem_number': problem.problem_number,
+            'solution': problem.solution,
+            'notes': problem.notes,
+            'topics': ', '.join([topic.name for topic in problem.topics.all()]),
+            'time_complexity': problem.time_complexity,
+            'space_complexity': problem.space_complexity,
+            'difficulty': problem.difficulty,
+            'problem_link': problem.problem_link,
+            'status': problem.status
+        }
+        form = LeetCodeProblemForm(initial=initial_data)
+    return render(request, 'leettracker/editproblem.html', {'form': form, 'problem': problem})
+
+def problemsbytopic(request, topic_id):
+    topic = get_object_or_404(Topic, id=topic_id)
+    problems = LeetCodeProblem.objects.filter(topics=topic)
+    return render(request, 'leettracker/problemsbytopic.html', {'topic': topic, 'problems': problems})
+
+def selectbytopic(request):
+    topics = Topic.objects.all().order_by('name')
+    return render(request, 'leettracker/selectbytopic.html', {'topics': topics})

@@ -9,5 +9,8 @@ urlpatterns = [
     path("newentry", views.newentry, name="newentry"),
     path("myproblems", views.myproblems, name='myproblems'),
     path('problems/<int:problem_id>/', views.displayproblem, name='displayproblem'),
-    path('topics', views.topics, name='topics'),
+    path('selectbytopic', views.selectbytopic, name='selectbytopic'),
+    path('selectbytopic/<int:topic_id>/', views.problemsbytopic, name='problemsbytopic'),
+    path('problems/<int:problem_id>/delete/', views.deleteproblem, name='deleteproblem'),
+    path('problems/<int:problem_id>/edit/', views.editproblem, name='editproblem'),
 ]

@@ -1,0 +1,72 @@
+{% extends "leettracker/layout.html" %}
+{% load static %}
+
+{% block javascript %}
+<script src="{% static 'leettracker/parsetabs.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.select2-multiple').select2({
+            tags: true,
+            tokenSeparators: [',', ' '],
+            placeholder: "Enter topics",
+            allowClear: true
+        });
+    });
+</script>
+{% endblock %}
+
+{% block body %}
+<div id="main-content">
+    <h1>{% block form_title %}{% endblock %}</h1>
+    <form method="post" action="{% block form_action %}{% endblock %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="problemName">Problem Name *</label>
+            <input type="text" class="form-control" id="problemName" name="problem_name" placeholder="Enter Problem Name" value="{% block problem_name_value %}{% endblock %}" required style="background-color: #444; color: white;">
+        </div>
+        <div class="form-group">
+            <label for="problemNumber">Problem Number *</label>
+            <input type="number" class="form-control" id="problemNumber" name="problem_number" placeholder="Enter Problem Number" value="{% block problem_number_value %}{% endblock %}" required style="background-color: #444; color: white;">
+        </div>
+        <div class="form-group">
+            <label for="solution">Solution</label>
+            <textarea class="form-control" id="solution" name="solution" placeholder="Enter Solution (Optional)" rows="8" style="background-color: #444; color: white; white-space: pre; overflow-x: auto; font-family: 'Courier New', Courier, monospace;">{% block solution_value %}{% endblock %}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="notes">Notes</label>
+            <textarea class="form-control" id="notes" name="notes" placeholder="Enter Notes (Optional)" rows="3" style="background-color: #444; color: white; white-space: pre; overflow-x: auto;">{% block notes_value %}{% endblock %}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="topics">Topics *</label>
+            <input type="text" class="form-control select2-multiple" id="topics" name="topics" placeholder="Enter Topics (comma-separated)" value="{% block topic_value %}{% endblock %}" required style="background-color: #444; color: white;">
+        </div>
+        <div class="form-group">
+            <label for="timeComplexity">Time Complexity</label>
+            <input type="text" class="form-control" id="timeComplexity" name="time_complexity" placeholder="Enter Time Complexity (Optional)" value="{% block time_complexity_value %}{% endblock %}" style="background-color: #444; color: white;">
+        </div>
+        <div class="form-group">
+            <label for="spaceComplexity">Space Complexity</label>
+            <input type="text" class="form-control" id="spaceComplexity" name="space_complexity" placeholder="Enter Space Complexity (Optional)" value="{% block space_complexity_value %}{% endblock %}" style="background-color: #444; color: white;">
+        </div>
+        <div class="form-group">
+            <label for="difficulty">Difficulty *</label>
+            <select class="form-control" id="difficulty" name="difficulty" style="background-color: #444; color: white; padding: 10px; height: auto;">
+                <option value="" disabled selected hidden>Select Difficulty</option>
+                <option value="Easy" {% block difficulty_easy %}{% endblock %}>Easy</option>
+                <option value="Medium" {% block difficulty_medium %}{% endblock %}>Medium</option>
+                <option value="Hard" {% block difficulty_hard %}{% endblock %}>Hard</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="problemLink">Problem Link *</label>
+            <input type="url" class="form-control" id="problemLink" name="problem_link" placeholder="Enter Problem URL" value="{% block problem_link_value %}{% endblock %}" style="background-color: #444; color: white;">
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="status" name="status" style="background-color: #444; color: white;" {% block status_checked %}{% endblock %}>
+            <label class="form-check-label" for="status">Problem Solved *</label>
+        </div>
+        <button type="submit" class="btn btn-primary">{% block submit_text %}Submit{% endblock %}</button>
+    </form>
+</div>
+{% endblock %}
