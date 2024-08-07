@@ -8,6 +8,7 @@ from django import forms
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 import random
 
 from .models import User, LeetCodeProblem, Topic
@@ -112,7 +113,7 @@ class LeetCodeProblemForm(forms.Form):
         })
     )
     space_complexity = forms.CharField(
-        required=False,  # Make optional
+        required=False, 
         max_length=100,
         widget=forms.TextInput(attrs={
             'placeholder': 'Enter Space Complexity (optional)',
@@ -126,10 +127,9 @@ class LeetCodeProblemForm(forms.Form):
         })
     )
     problem_link = forms.URLField(
-        required=False,  # Make optional
         max_length=200,
         widget=forms.URLInput(attrs={
-            'placeholder': 'Enter Problem Link (optional)',
+            'placeholder': 'Enter Problem Link',
             'class': 'form-control'
         })
     )
@@ -141,6 +141,7 @@ class LeetCodeProblemForm(forms.Form):
         })
     )
 
+@login_required
 def newentry(request):
     if request.method == "POST":
         form = LeetCodeProblemForm(request.POST)
@@ -166,15 +167,18 @@ def newentry(request):
         form = LeetCodeProblemForm()
     return render(request, 'leettracker/newentry.html', {'form': form})
 
+@login_required
 def myproblems(request):
     # Fetch all problem instances from the database
     problems = LeetCodeProblem.objects.all()
     return render(request, 'leettracker/myproblems.html', {'problems': problems})
 
+@login_required
 def displayproblem(request, problem_id):
     problem = get_object_or_404(LeetCodeProblem, pk=problem_id)
     return render(request, 'leettracker/displayproblem.html', {'problem': problem})
 
+@login_required
 def selectbytopic(request):
     # Fetch distinct topics and order them alphabetically
     topics = LeetCodeProblem.objects.values_list('topics', flat=True).distinct().order_by('topics')
@@ -185,6 +189,7 @@ def cleanup_topics():
     
 @csrf_exempt
 @require_POST
+@login_required
 def deleteproblem(request, problem_id):
     problem = get_object_or_404(LeetCodeProblem, id=problem_id)
     problem.delete()
@@ -195,6 +200,7 @@ def deleteproblem(request, problem_id):
     else:
         return redirect('myproblems')
 
+@login_required
 def editproblem(request, problem_id):
     problem = get_object_or_404(LeetCodeProblem, id=problem_id)
     if request.method == "POST":
@@ -235,15 +241,18 @@ def editproblem(request, problem_id):
         form = LeetCodeProblemForm(initial=initial_data)
     return render(request, 'leettracker/editproblem.html', {'form': form, 'problem': problem})
 
+@login_required
 def problemsbytopic(request, topic_id):
     topic = get_object_or_404(Topic, id=topic_id)
     problems = LeetCodeProblem.objects.filter(topics=topic)
     return render(request, 'leettracker/problemsbytopic.html', {'topic': topic, 'problems': problems})
 
+@login_required
 def selectbytopic(request):
     topics = Topic.objects.all().order_by('name')
     return render(request, 'leettracker/selectbytopic.html', {'topics': topics})
 
+@login_required
 def random_problem(request):
     problems = LeetCodeProblem.objects.all()
     if problems:

@@ -3,13 +3,13 @@
 
 {% block body %}
 <div id="main-content">
-    <h2 style="color: white;">Topics</h2>
+    <h2>Topics</h2>
     {% if topics %}
         <ul class="list-unstyled">
             {% for topic in topics %}
                 <li>
-                    <a href="{% url 'problemsbytopic' topic.id %}" style="color: #007bff; font-size: 1.5em;">{{ topic.name }}</a>
-                    <hr style="border-top: 1px solid white;">
+                    <a href="{% url 'problemsbytopic' topic.id %}">{{ topic.name }}</a>
+                    <hr>
                 </li>
             {% endfor %}
         </ul>

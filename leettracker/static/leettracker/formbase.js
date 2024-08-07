@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Tab key handling for textareas
     var textareas = document.getElementsByTagName('textarea');
     for (var i = 0; i < textareas.length; i++) {
         textareas[i].addEventListener('keydown', function(e) {
@@ -17,4 +18,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Select2 initialization
+    $('.select2-multiple').select2({
+        tags: true,
+        tokenSeparators: [',', ' '],
+        placeholder: "Enter topics",
+        allowClear: true
+    });
 });

@@ -28,7 +28,7 @@ class LeetCodeProblem(models.Model):
     time_complexity = models.CharField(max_length=100, blank=True, null=True)
     space_complexity = models.CharField(max_length=100, blank=True, null=True)
     difficulty = models.CharField(max_length=6, choices=DIFFICULTY_CHOICES)
-    problem_link = models.URLField(max_length=200)
+    problem_link = models.URLField()
     status = models.BooleanField()
 
     def __str__(self):

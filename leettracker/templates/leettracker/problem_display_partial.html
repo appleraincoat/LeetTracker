@@ -1,56 +1,55 @@
-<div id="main-content" style="font-family: Arial, sans-serif; max-width: 800px; margin: auto; background-color: #333; padding: 20px; border-radius: 10px; color: white; position: relative;">
-    <!-- Solved/Unsolved Status -->
-    <div style="position: absolute; top: 20px; right: 20px;">
-        {% if problem.status %}
-        <span style="color: green; font-weight: bold;">
-            Solved <span style="color: green;">✔</span>
-        </span>
-        {% else %}
-        <span style="color: red; font-weight: bold;">
-            Unsolved <span style="color: red;">✘</span>
-        </span>
-        {% endif %}
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/leettracker/styles.css">
+</head>
+<body>
+    <div id="main-content-displayproblem">
+        <!-- Solved/Unsolved Status -->
+        <div class="solved-status">
+            {% if problem.status %}
+            <span class="solved">Solved <span>✔</span></span>
+            {% else %}
+            <span class="unsolved">Unsolved <span>✘</span></span>
+            {% endif %}
+        </div>
 
-    <h1>{{ problem.problem_number }}. {{ problem.problem_name }}</h1>
-    <div style="display: flex; align-items: center; justify-content: start; margin-bottom: 20px;">
-        {% if problem.get_difficulty_display == "Easy" %}
-        <span style="display: inline-block; padding: 5px 20px; border-radius: 20px; background-color: #444; color: #4CAF50; text-align: center; font-weight: bold; margin-right: 20px; pointer-events: none; user-select: none;">
-            {{ problem.get_difficulty_display }}
-        </span>
-        {% elif problem.get_difficulty_display == "Medium" %}
-        <span style="display: inline-block; padding: 5px 20px; border-radius: 20px; background-color: #444; color: #FFC107; text-align: center; font-weight: bold; margin-right: 20px; pointer-events: none; user-select: none;">
-            {{ problem.get_difficulty_display }}
-        </span>
-        {% elif problem.get_difficulty_display == "Hard" %}
-        <span style="display: inline-block; padding: 5px 20px; border-radius: 20px; background-color: #444; color: #F44336; text-align: center; font-weight: bold; margin-right: 20px; pointer-events: none; user-select: none;">
-            {{ problem.get_difficulty_display }}
-        </span>
-        {% endif %}
-    </div>
+        <h1>{{ problem.problem_number }}. {{ problem.problem_name }}</h1>
+        <div class="difficulty">
+            {% if problem.get_difficulty_display == "Easy" %}
+            <span class="easy">{{ problem.get_difficulty_display }}</span>
+            {% elif problem.get_difficulty_display == "Medium" %}
+            <span class="medium">{{ problem.get_difficulty_display }}</span>
+            {% elif problem.get_difficulty_display == "Hard" %}
+            <span class="hard">{{ problem.get_difficulty_display }}</span>
+            {% endif %}
+        </div>
 
-    <div id="topics-dropdown-box" class="dropdown">
-        <span>Topics &#9660;</span>
-        <div id="topics-dropdown-content" class="dropdown-content">
-            {% for topic in problem.topics.all %}
-            <a href="{% url 'problemsbytopic' topic.id %}" class="btn btn-secondary" style="margin: 5px; color: white;">{{ topic.name }}</a>
-            {% endfor %}
+        <div id="topics-dropdown-box" class="dropdown">
+            <span>Topics &#9660;</span>
+            <div id="topics-dropdown-content" class="dropdown-content">
+                {% for topic in problem.topics.all %}
+                <a href="{% url 'problemsbytopic' topic.id %}" class="tag" id="tag-displayproblem">{{ topic.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <p><a href="{{ problem.problem_link }}" target="_blank" class="problem-link"><strong>Link to Problem</strong></a></p>
+        
+        <h2>Solution</h2>
+        <pre class="solution">{{ problem.solution }}</pre>
+        
+        {% if problem.notes %}
+        <h2>Notes</h2>
+        <pre class="notes">{{ problem.notes }}</pre>
+        {% endif %}
+        
+        <h2>Complexity</h2>
+        <div class="complexity">
+            <p><strong>Time Complexity:</strong> {{ problem.time_complexity }}</p>
+            <p><strong>Space Complexity:</strong> {{ problem.space_complexity }}</p>
         </div>
     </div>
-
-    <p><a href="{{ problem.problem_link }}" target="_blank" style="color: #007bff;"><strong>Link to Problem</strong></a></p>
-    
-    <h2>Solution</h2>
-    <pre style="background-color: #444; color: #eee; padding: 15px; overflow: auto;">{{ problem.solution }}</pre>
-    
-    {% if problem.notes %}
-    <h2>Notes</h2>
-    <pre style="background-color: #444; color: #eee; padding: 15px; overflow: auto;">{{ problem.notes }}</pre>
-    {% endif %}
-    
-    <h2>Complexity</h2>
-    <div style="background-color: #444; color: #eee; padding: 15px;">
-        <p><strong>Time Complexity:</strong> {{ problem.time_complexity }}</p>
-        <p><strong>Space Complexity:</strong> {{ problem.space_complexity }}</p>
-    </div>
-</div>
+</body>
+</html>
