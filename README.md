@@ -6,11 +6,12 @@ Solved countless hard Leetcode problems but can't get past the FAANG assessments
 ## Distinctiveness and Complexity
 
 ### Distinctiveness
-LeetTracker is an original idea developed from scratch, and is distinct in its functionality compared to the other CS50W projects, as it as a progress-tracking/note-recording webapp. There are brand new features that are not seen before, such as the ability to filter problem entries by their characteristics, and some that were inspired by previous projects (retrieving a random instance for the user) but modified to suit the context of the project both for the user and the project structure. The application provides a user-friendly interface for organizing problems by topics, which are dynamically created by users. The problem display includes features like a collapsible topic section and sorting/filtering functionality.
+LeetTracker is an original idea developed from scratch, and is distinct in its concept compared to the other CS50W projects, as it is primarily a progress-tracking/note-recording webapp. There are brand new features that are not seen before, such as the ability to dynamically filter problem entries by their characteristics (using JavaScript), and some that were inspired by previous projects (retrieving a random instance for the user) but modified to suit the context of the project both for the user and the project structure by using JavaScript to dynamically load the page with the problem instance upon the press of a button instead of just redirecting the user to a new page. The application provides a user-friendly interface for organizing problems by topics, which are dynamically created by users. The problem display includes features like a collapsible topic section and sorting/filtering functionality.
 
 ### Complexity
 LeetTracker exhibits complexity through various aspects:
-- **Dynamic Content:** The application handles dynamically generated topics and allows users to filter, sort, and view problems based on specific criteria.
+- **Dynamic Content:** The application handles dynamically generated topics and allows users to filter, sort, and view problems based on specific criteria, even allowing  for multiple-criteria filtering.
+- **Multiple Page Sections** The structure of this web application features a webpage that has 3 main components - a tab for navigation, a tab for diusplaying suggested content which can be navigated to, as wellll as the main content page itself.
 - **JavaScript Integration:** The app integrates JavaScript for functionalities like dropdowns, sorting, filtering, and fetching random problems, ensuring a seamless user experience.
 - **Custom Problem Display:** The detailed problem display page includes a solution section with code formatting, complexity analysis, and notes, all styled consistently for readability.
 - **Session Management:** User authentication and session management allow personalized interaction with the app, maintaining user-specific data like saved problems and session states.
@@ -21,11 +22,11 @@ LeetTracker exhibits complexity through various aspects:
 #### `leettracker/`
 - **`views.py`**: Contains all the view functions for rendering templates, handling form submissions, and managing user interactions.
 - **`urls.py`**: Maps URLs to view functions, defining the different routes within the application.
-- **`models.py`**: Contains the database models, representing the problem and topic entities.
+- **`models.py`**: 2 models are used, one for the Problem entryt and one for the Topic/s that the problem entry contains.
 
 ### Frontend
 #### `leettracker/`
-- **`static/leettracker`**: Contains all JavaScript files for handling dynamic behaviors such as filtering, sorting, dropdowns and tab displaying, and CSS files that dictate the styling and strcuture of aesthetic elements in the UI.
+- **`static/leettracker`**: Contains all JavaScript files for handling dynamic behaviors such as filtering, sorting, dropdowns and tab displaying for their respective pages, and CSS files that dictate the styling and strcuture of aesthetic elements in the UI.
 - **`templates/leettracker/`**: Contains all the HTML templates, including:
     - `displayproblem.html`: The page template for displaying a single problem entry in detail, similar to LeetCode's style to introduce fmailiarity and readability.
     - `formbase.html`: The page template for displaying the form when keying in a new entry or  editing an entry. This is inherited by:
@@ -57,6 +58,3 @@ LeetTracker exhibits complexity through various aspects:
    ```python manage.py runserver```
 
 5. Go to the link provided on your command terminal, and start LeetTracking!
-
-## Additional Information
-

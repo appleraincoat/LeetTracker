@@ -355,9 +355,8 @@ a#editbutton:hover, a#editbutton:focus {
 }
 
 .btn-warning-displayproblem {
-    background-color: #ffc107;
-    border-color: #ffc107;
-    color: #212529;
+    background-color: green;
+    color: white;
 }
 
 .btn-danger-displayproblem {
