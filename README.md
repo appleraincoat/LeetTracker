@@ -20,9 +20,60 @@ LeetTracker exhibits complexity through various aspects:
 
 ### Backend
 #### `leettracker/`
-- **`views.py`**: Contains all the view functions for rendering templates, handling form submissions, and managing user interactions.
+- **`views.py`**: Contains all the view functions which include:
+     - **`index(request)`**: 
+        - **Purpose**: Renders the home page.
+        - **Description**: This view function is used to render the main index page of the application, which is displayed when the user navigates to the home URL.
+
+    - **`login_view(request)`**: 
+        - **Purpose**: Handles user login.
+        - **Description**: This view authenticates the user by checking the provided username and password. If the credentials are correct, the user is logged in and redirected to the index page. Otherwise, an error message is displayed.
+
+    - **`logout_view(request)`**: 
+        - **Purpose**: Logs the user out.
+        - **Description**: This view logs the user out of the session and redirects them to the index page.
+
+    - **`register(request)`**: 
+        - **Purpose**: Handles user registration.
+        - **Description**: This view handles the registration process. It checks if the provided passwords match, and if the username is available. If successful, the user is created and logged in; otherwise, an error message is shown.
+
+    - **`newentry(request)`**: 
+        - **Purpose**: Allows users to create a new LeetCode problem entry.
+        - **Description**: This view allows authenticated users to submit a new problem by filling out a form. The new problem is saved to the database, and the user is redirected to the "My Problems" page.
+
+    - **`myproblems(request)`**: 
+        - **Purpose**: Displays the user's saved problems.
+        - **Description**: This view fetches all the LeetCode problems that the user has saved and renders them in a list format.
+
+    - **`displayproblem(request, problem_id)`**: 
+        - **Purpose**: Displays the details of a specific problem.
+        - **Description**: This view fetches a specific LeetCode problem by its ID and displays all its details, including the problem name, number, solution, notes, topics, and complexities.
+
+    - **`selectbytopic(request)`**: 
+        - **Purpose**: Displays a list of topics the user can select from.
+        - **Description**: This view lists all distinct topics associated with LeetCode problems in the database, allowing users to filter problems by topic.
+
+    - **`cleanup_topics()`**: 
+        - **Purpose**: Cleans up unused topics from the database.
+        - **Description**: This utility function deletes topics from the database that are no longer associated with any LeetCode problems.
+
+    - **`deleteproblem(request, problem_id)`**: 
+        - **Purpose**: Deletes a specific problem.
+        - **Description**: This view deletes a specific LeetCode problem by its ID and then cleans up any orphaned topics. The deletion is confirmed with a JavaScript alert if initiated from the frontend.
+
+    - **`editproblem(request, problem_id)`**: 
+        - **Purpose**: Allows users to edit an existing LeetCode problem entry.
+        - **Description**: This view allows authenticated users to update an existing problem. The form is pre-populated with the current problem data, and upon submission, the updated problem is saved to the database.
+
+    - **`problemsbytopic(request, topic_id)`**: 
+        - **Purpose**: Displays problems associated with a specific topic.
+        - **Description**: This view fetches and displays all LeetCode problems associated with a specific topic ID, allowing users to see all problems related to that topic.
+
+    - **`random_problem(request)`**: 
+        - **Purpose**: Displays a random problem.
+        - **Description**: This view selects a random LeetCode problem from the database and displays its details. If no problems are available, an error message is shown.
 - **`urls.py`**: Maps URLs to view functions, defining the different routes within the application.
-- **`models.py`**: 2 models are used, one for the Problem entryt and one for the Topic/s that the problem entry contains.
+- **`models.py`**: 2 models are used, one for the Problem entry and one for the Topic/s that the problem entry contains.
 
 ### Frontend
 #### `leettracker/`
