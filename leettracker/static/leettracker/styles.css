@@ -356,13 +356,31 @@ a#editbutton:hover, a#editbutton:focus {
 
 .btn-warning-displayproblem {
     background-color: green;
-    color: white;
+    border: none;
+    color: white !important;
 }
+
+
 
 .btn-danger-displayproblem {
     background-color: #dc3545;
-    border-color: #dc3545;
+    border: none;
     color: white;
+}
+
+.btn-warning-displayproblem:hover, 
+.btn-warning-displayproblem:focus {
+    background-color: darkgreen !important; /* Slightly darker green on hover */
+    color: white !important;
+    text-decoration: none;
+}
+
+/* For the Delete button */
+.btn-danger-displayproblem:hover, 
+.btn-danger-displayproblem:focus {
+    background-color: #c82333 !important; /* Slightly darker red on hover */
+    color: white !important;
+    text-decoration: none;
 }
 
 /* select by topics page */ 
